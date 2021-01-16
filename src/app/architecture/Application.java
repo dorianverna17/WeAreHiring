@@ -2,6 +2,7 @@ package app.architecture;
 
 import app.company.Company;
 import app.info.Job;
+import app.user.Consumer;
 import app.user.User;
 
 import java.util.ArrayList;
@@ -116,7 +117,7 @@ public class Application {
             }
             if (aux != null) {
                 for (int j = 0; j < aux.getJobs().size(); j++) {
-                    jobs.add(aux.getJobs().get(i));
+                    jobs.add(aux.getJobs().get(j));
                 }
             }
         }
@@ -128,5 +129,36 @@ public class Application {
         for (int i = 0; i < users.size(); i++) {
             System.out.println(users.get(i).getResume().toString());
         }
+    }
+
+    // obtinerea unui consumer pe baza numelui
+    public Consumer getConsumer(String name) {
+        String aux1, aux2;
+        for (int i = 0; i < getInstance().getUsers().size(); i++) {
+            aux1 = getInstance().getUsers().get(i).getResume().getInformation().getLastname();
+            aux2 = getInstance().getUsers().get(i).getResume().getInformation().getFirstname();
+            if ((aux1 + " " + aux2).equals(name))
+                return getInstance().getUsers().get(i);
+        }
+        for (int i = 0; i < getInstance().getCompanies().size(); i++) {
+            if (getInstance().getCompanies().get(i).getEmployee(name) != null)
+                return getInstance().getCompanies().get(i).getEmployee(name);
+        }
+        return null;
+    }
+
+    public Job findJob(String selectedValue) {
+        int index = selectedValue.indexOf(' ');
+        String company_name = selectedValue.substring(0, index);
+        String job_name = selectedValue.substring(index + 1);
+        System.out.println(job_name);
+        Company comp = Application.getInstance().getCompany(company_name);
+        Job job = null;
+        for (int i = 0; i < comp.getDepartments().size(); i++) {
+            job = comp.getDepartments().get(i).getJob(job_name);
+            if (job != null)
+                return job;
+        }
+        return null;
     }
 }

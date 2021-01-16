@@ -67,4 +67,12 @@ public abstract class Department {
         Notification notification = new Notification(job.getCompany(), "A fost adaugat un job nou: " + job.getName());
         Application.getInstance().getCompany(job.getCompany()).notifyAllObserver(notification);
     }
+
+    public Job getJob(String name) {
+        for (int i = 0; i < getJobs().size(); i++) {
+            if (getJobs().get(i).getName().equals(name))
+                return getJobs().get(i);
+        }
+        return null;
+    }
 }

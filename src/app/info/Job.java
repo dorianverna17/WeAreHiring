@@ -120,8 +120,7 @@ public class Job {
     public void apply(User user) {
         Company company = Application.getInstance().getCompany(this.getCompany());
         Recruiter recruiter = company.findRecruiter(user);
-//        System.out.println("Recruiter-ul gasit este " + recruiter.getResume().getInformation().getLastname() + " " +
-//                recruiter.getResume().getInformation().getFirstname());
+        System.out.println("S-a aplicat la job");
         candidates.add(user);
         recruiter.evaluate(this, user);
     }
@@ -152,8 +151,6 @@ public class Job {
     // metoda care verifica daca un user indeplineste conditiile pentru job
     public boolean meetsRequirments(User user) {
         int aux1, aux2, aux3;
-//        System.out.println(user.meanGPA() + " " + user.getExperienceYears() + " " +
-//                user.getGraduationYear());
         if (this.isOpen_job()) {
             if (getGrade().getInf() <= user.meanGPA()) {
                 if (getExperience().getInf() == null)

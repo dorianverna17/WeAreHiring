@@ -97,6 +97,7 @@ public class ShowDetails extends JFrame implements ActionListener {
         JLabel sex = new JLabel("Sex:");
         JLabel date = new JLabel("Birth date:");
         JLabel language = new JLabel("Languages:");
+        System.out.println(user);
         JLabel lastname_result = new JLabel(user.getResume().getInformation().getLastname());
         JLabel firstname_result = new JLabel(user.getResume().getInformation().getFirstname());
         JLabel email_result = new JLabel(user.getResume().getInformation().getEmail());

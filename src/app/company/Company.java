@@ -180,10 +180,12 @@ public class Company implements Subject {
             for (int j = 0; j < departments.get(i).getEmployees().size(); j++) {
                 aux1 = departments.get(i).getEmployees().get(j).getResume().getInformation().getLastname();
                 aux2 = departments.get(i).getEmployees().get(j).getResume().getInformation().getFirstname();
+                System.out.println(aux1 + " " + aux2);
                 if ((aux1 + " " + aux2).equals(name))
                     return departments.get(i).getEmployees().get(j);
             }
         }
+//        System.out.println("aici");
         return null;
     }
 

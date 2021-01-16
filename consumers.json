@@ -580,7 +580,7 @@
             "genre": "male",
             "languages": ["English", "French"],
             "languages_level": ["Experienced", "Beginner"],
-            "interested_companies": ["Google"],
+            "interested_companies": ["Google", "Amazon"],
             "education":[
                 {
                     "level": "highschool",

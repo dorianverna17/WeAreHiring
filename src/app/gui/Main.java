@@ -1,5 +1,10 @@
 package app.gui;
 
+import app.architecture.Application;
+import app.gui.user.MediatorConsumer;
+import app.gui.user.MediatorDialog;
+import app.user.User;
+
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -7,6 +12,7 @@ import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Main extends JFrame implements ActionListener {
     private JLabel label;
@@ -113,10 +119,21 @@ public class Main extends JFrame implements ActionListener {
             email.setText("");
             password.setText("");
             Register register_frame = new Register();
-        }
-        if (button.getText().equals("Log In as Admin")) {
+        } else if (button.getText().equals("Log In as Admin")) {
             setVisible(false);
             AdminPage page = new AdminPage();
+        } else if (button.getText().equals("Log In")) {
+            String email, year;
+            ArrayList<User> list = Application.getInstance().getUsers();
+            for (int i = 0; i < list.size(); i++) {
+                email = list.get(i).getResume().getInformation().getEmail();
+                year = ((Integer)list.get(i).getResume().getInformation().getBirth_date().getYear()).toString();
+                if (email.equals(this.email.getText()) && year.equals(password.getText())) {
+                    MediatorConsumer win = new MediatorDialog();
+                    setVisible(false);
+                    win.createWin(list.get(i));
+                }
+            }
         }
     }
 }
