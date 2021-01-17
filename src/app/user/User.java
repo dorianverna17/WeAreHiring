@@ -53,17 +53,39 @@ public class User extends Consumer implements Observer {
         return total;
     }
 
+    // returneaza o lista cu notificarile care nu sunt vazute
+    public ArrayList<Pair<Notification, Boolean>> getUnseenNotifications() {
+        ArrayList<Pair<Notification, Boolean>> list = new ArrayList<>();
+        for (int i = 0; i < notifications.size(); i++) {
+            if (!notifications.get(i).value2) {
+                list.add(notifications.get(i));
+                notifications.get(i).value2 = true;
+            }
+        }
+        return list;
+    }
+
+    public ArrayList<String> getNotifications() {
+        ArrayList<String> not = new ArrayList<>();
+        for (int i = notifications.size() - 1; i >= 0; i--) {
+            not.add(notifications.get(i).value1.getText());
+            notifications.get(i).value2 = true;
+        }
+        return not;
+    }
+
     @Override
     public void update(Notification notification) {
         notifications.add(new Pair<>(notification, false));
     }
 
+    // afiseaza in consola ntificariles
     public void seeNotifications() {
         for (int i = 0; i < notifications.size(); i++) {
-            if (notifications.get(i).degree == false) {
-                System.out.println(notifications.get(i).user.getCompany() + ": " +
-                        notifications.get(i).user.getText());
-                notifications.get(i).degree = true;
+            if (notifications.get(i).value2 == false) {
+                System.out.println(notifications.get(i).value1.getCompany() + ": " +
+                        notifications.get(i).value1.getText());
+                notifications.get(i).value2 = true;
             }
         }
     }

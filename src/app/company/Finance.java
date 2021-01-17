@@ -33,10 +33,11 @@ public class Finance extends Department {
     public double getTotalSalaryBudget() {
         double total = 0;
         for (int i = 0; i < getEmployees().size(); i++) {
+            System.out.println(getEmployees().get(i).getSalary());
             if (getExperienceinCompany(getEmployees().get(i)) == 0) {
-                total += (double) 10 / 100 * getEmployees().get(i).getSalary();
+                total += getEmployees().get(i).getSalary() + (((double) 10 / 100) * getEmployees().get(i).getSalary());
             } else {
-                total += (double) 16 / 100 * getEmployees().get(i).getSalary();
+                total += getEmployees().get(i).getSalary() + (((double) 16 / 100) * getEmployees().get(i).getSalary());
             }
         }
         return total;

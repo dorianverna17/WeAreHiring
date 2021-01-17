@@ -1,7 +1,8 @@
-package app.gui;
+package app.gui.registration;
 
 import app.architecture.Application;
 import app.company.*;
+import app.gui.Main;
 import app.user.Employee;
 import app.user.Manager;
 

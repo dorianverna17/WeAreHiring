@@ -1,7 +1,6 @@
-package app.gui;
+package app.gui.registration;
 
 import app.info.Date;
-import app.info.Education;
 import app.info.Information;
 import app.user.Consumer;
 import app.user.User;

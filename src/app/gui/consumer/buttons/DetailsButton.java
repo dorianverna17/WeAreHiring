@@ -1,6 +1,7 @@
-package app.gui.user;
+package app.gui.consumer.buttons;
 
-import javax.print.attribute.standard.Media;
+import app.gui.consumer.MediatorConsumer;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 

@@ -174,6 +174,7 @@ public class Company implements Subject {
     }
 
     // verifica daca exista acel angajat in companie
+    // verifica dupa nume
     public Employee getEmployee(String name) {
         String aux1, aux2;
         for (int i = 0; i < departments.size(); i++) {
@@ -185,7 +186,20 @@ public class Company implements Subject {
                     return departments.get(i).getEmployees().get(j);
             }
         }
-//        System.out.println("aici");
+        return null;
+    }
+
+    // verifica daca exista un angajat in companie
+    // verifica dupa email
+    public Employee getEmployeeByEmail(String email) {
+        String aux;
+        for (int i = 0; i < departments.size(); i++) {
+            for (int j = 0; j < departments.get(i).getEmployees().size(); j++) {
+                aux = departments.get(i).getEmployees().get(j).getResume().getInformation().getEmail();
+                if ((aux).equals(email))
+                    return departments.get(i).getEmployees().get(j);
+            }
+        }
         return null;
     }
 
@@ -210,17 +224,17 @@ public class Company implements Subject {
             while (!list.isEmpty()) {
                 Pair<Consumer, Integer> pair = list.get(list.size() - 1);
                 list.remove(list.size() - 1);
-                if (visited.contains(pair.user))
+                if (visited.contains(pair.value1))
                     continue;
-                visited.add(pair.user);
-                if (pair.user == recruiter) {
-                    if (pair.degree > degree)
-                        degree = pair.degree;
+                visited.add(pair.value1);
+                if (pair.value1 == recruiter) {
+                    if (pair.value2 > degree)
+                        degree = pair.value2;
                 }
                 else {
-                    for (int i = 0; i < pair.user.getContacts().size(); i++)
-                        if (!visited.contains(pair.user.getContacts().get(i)))
-                            list.add(0, new Pair(pair.user.getContacts().get(i), pair.degree + 1));
+                    for (int i = 0; i < pair.value1.getContacts().size(); i++)
+                        if (!visited.contains(pair.value1.getContacts().get(i)))
+                            list.add(0, new Pair(pair.value1.getContacts().get(i), pair.value2 + 1));
                 }
             }
         }
@@ -239,18 +253,18 @@ public class Company implements Subject {
         Recruiter recruit = null;
         Double aux;
         for (int i = 0; i < degrees.size(); i++) {
-            if (degrees.get(i).degree > max) {
-                recruit = degrees.get(i).user;
-                max = degrees.get(i).degree;
+            if (degrees.get(i).value2 > max) {
+                recruit = degrees.get(i).value1;
+                max = degrees.get(i).value2;
             } else {
-                if (degrees.get(i).degree == max) {
+                if (degrees.get(i).value2 == max) {
                     if (recruit == null)
                         aux = 0d;
                     else
                         aux = recruit.getRating();
-                    if (degrees.get(i).user.getRating() > aux) {
-                        recruit = degrees.get(i).user;
-                        max = degrees.get(i).degree;
+                    if (degrees.get(i).value1.getRating() > aux) {
+                        recruit = degrees.get(i).value1;
+                        max = degrees.get(i).value2;
                     }
                 }
             }

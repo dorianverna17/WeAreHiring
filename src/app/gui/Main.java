@@ -1,8 +1,13 @@
 package app.gui;
 
 import app.architecture.Application;
-import app.gui.user.MediatorConsumer;
-import app.gui.user.MediatorDialog;
+import app.company.Company;
+import app.gui.consumer.MediatorConsumer;
+import app.gui.consumer.MediatorDialog;
+import app.gui.registration.Register;
+import app.user.Consumer;
+import app.user.Employee;
+import app.user.Manager;
 import app.user.User;
 
 import javax.swing.*;
@@ -124,15 +129,43 @@ public class Main extends JFrame implements ActionListener {
             AdminPage page = new AdminPage();
         } else if (button.getText().equals("Log In")) {
             String email, year;
+            Consumer found = null;
             ArrayList<User> list = Application.getInstance().getUsers();
             for (int i = 0; i < list.size(); i++) {
                 email = list.get(i).getResume().getInformation().getEmail();
                 year = ((Integer)list.get(i).getResume().getInformation().getBirth_date().getYear()).toString();
                 if (email.equals(this.email.getText()) && year.equals(password.getText())) {
-                    MediatorConsumer win = new MediatorDialog();
-                    setVisible(false);
-                    win.createWin(list.get(i));
+                    found = list.get(i);
                 }
+            }
+            ArrayList<Company> companies = Application.getInstance().getCompanies();
+            if (found == null) {
+                Employee emp = null;
+                for (int i = 0; i < companies.size(); i++) {
+                    emp = companies.get(i).getEmployeeByEmail(this.email.getText());
+                    if (emp != null)
+                        break;
+                }
+                if (emp != null) {
+                    year = ((Integer)emp.getResume().getInformation().getBirth_date().getYear()).toString();
+                    if (year.equals(password.getText())) {
+                        found = emp;
+                    }
+                }
+            }
+            if (found == null) {
+                for (int i = 0; i < companies.size(); i++) {
+                    Manager manager = companies.get(i).getManager();
+                    year = ((Integer)manager.getResume().getInformation().getBirth_date().getYear()).toString();
+                    if (this.email.getText().equals(manager.getResume().getInformation().getEmail()) &&
+                    password.getText().equals(year))
+                        found = manager;
+                }
+            }
+            if (found != null) {
+                MediatorConsumer win = new MediatorDialog();
+                setVisible(false);
+                win.createWin(found);
             }
         }
     }

@@ -120,7 +120,6 @@ public class Job {
     public void apply(User user) {
         Company company = Application.getInstance().getCompany(this.getCompany());
         Recruiter recruiter = company.findRecruiter(user);
-        System.out.println("S-a aplicat la job");
         candidates.add(user);
         recruiter.evaluate(this, user);
     }
@@ -182,5 +181,12 @@ public class Job {
             }
         }
         return false;
+    }
+
+    public void applyJob(User user) {
+        Company company = Application.getInstance().getCompany(this.getCompany());
+        Recruiter recruiter = company.findRecruiter(user);
+        candidates.add(user);
+        recruiter.addUserToEvaluate(new Pair<>(user, this));
     }
 }

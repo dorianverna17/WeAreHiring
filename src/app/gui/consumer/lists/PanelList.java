@@ -1,5 +1,7 @@
-package app.gui.user;
+package app.gui.consumer.lists;
 
+import app.company.Department;
+import app.gui.consumer.MediatorConsumer;
 import app.user.Consumer;
 
 import javax.swing.*;
@@ -21,8 +23,14 @@ public class PanelList extends JList {
         this.setModel(model);
     }
 
-    public void replaceList(JobList list) {
+    public void replaceList(JList list) {
         DefaultListModel model = (DefaultListModel) list.getModel();
         this.setModel(model);
+    }
+
+    public void removeElement() {
+        int i = getSelectedIndex();
+        DefaultListModel model = (DefaultListModel) getModel();
+        model.remove(i);
     }
 }

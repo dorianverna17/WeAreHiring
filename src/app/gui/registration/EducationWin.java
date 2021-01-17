@@ -1,18 +1,14 @@
-package app.gui;
+package app.gui.registration;
 
-import app.architecture.Application;
 import app.info.Date;
 import app.info.Education;
-import app.info.Experience;
 import app.info.Information;
 import app.user.Consumer;
-import app.user.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class EducationWin extends JFrame implements ActionListener {

@@ -75,6 +75,7 @@ public class Test {
             company_name = test.searchCompanyName(recruiters.get(i), "Recruiter");
             Company company = Application.getInstance().getCompany(company_name);
             company.add(recruiter);
+            recruiter.setCompany(company_name);
             recruiter.setSalary(Double.parseDouble(recruiters.get(i).get("salary").toString()));
             company.getDepartment("IT").add(recruiter);
             test.list_recruiters.add(recruiter);
@@ -367,13 +368,13 @@ public class Test {
 //            }
 //        }
         // acum voi procesa fiecare request
-        for (int i = 0; i < app.getCompanies().size(); i++) {
-            manager = app.getCompanies().get(i).getManager();
-            ArrayList<Job> list = app.getCompanies().get(i).getJobs();
-            for (int j = 0; j < list.size(); j++) {
-                manager.process(list.get(j));
-            }
-        }
+//        for (int i = 0; i < app.getCompanies().size(); i++) {
+//            manager = app.getCompanies().get(i).getManager();
+//            ArrayList<Job> list = app.getCompanies().get(i).getJobs();
+//            for (int j = 0; j < list.size(); j++) {
+//                manager.process(list.get(j));
+//            }
+//        }
         // acum voi printa notificarile pe care le are user-ul Edmund
         System.out.println("Notificarile pentru Edmund");
         app.getUsers().get(0).seeNotifications();

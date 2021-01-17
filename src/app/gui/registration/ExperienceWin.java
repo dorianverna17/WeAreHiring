@@ -1,6 +1,9 @@
-package app.gui;
+package app.gui.registration;
 
 import app.architecture.Application;
+import app.gui.registration.RegisterCompany;
+import app.gui.registration.RegisterEmployee;
+import app.gui.registration.RegisterInterests;
 import app.info.*;
 import app.user.*;
 

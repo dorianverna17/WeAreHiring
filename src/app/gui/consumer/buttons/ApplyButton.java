@@ -1,4 +1,6 @@
-package app.gui.user;
+package app.gui.consumer.buttons;
+
+import app.gui.consumer.MediatorConsumer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -1,5 +1,6 @@
-package app.gui;
+package app.gui.registration;
 
+import app.gui.Main;
 import app.user.User;
 
 import javax.swing.*;

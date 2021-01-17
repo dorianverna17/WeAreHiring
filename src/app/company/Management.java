@@ -5,7 +5,7 @@ public class Management extends Department {
     public double getTotalSalaryBudget() {
         double total = 0;
         for (int i = 0; i < getEmployees().size(); i++) {
-            total += (double) 16 / 100 * getEmployees().get(i).getSalary();
+            total += getEmployees().get(i).getSalary() + (double) 16 / 100 * getEmployees().get(i).getSalary();
         }
         return total;
     }

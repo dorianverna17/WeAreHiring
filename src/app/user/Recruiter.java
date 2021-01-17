@@ -5,12 +5,15 @@ import app.info.Job;
 import app.info.Request;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 public class Recruiter extends Employee {
     private double rating;
     private int number_evaluations;
+    private ArrayList<Pair<User, Job>> evaluated_users;
 
     public Recruiter() {
+        evaluated_users = new ArrayList<>();
         number_evaluations = 0;
         rating = 5;
     }
@@ -41,5 +44,14 @@ public class Recruiter extends Employee {
         number_evaluations++;
         setRating(5 + 0.1 * number_evaluations);
         return (int) result;
+    }
+
+    // adaugarea unui user din lista de Useri de evaluat
+    public void addUserToEvaluate(Pair<User, Job> pair) {
+        evaluated_users.add(pair);
+    }
+
+    public ArrayList<Pair<User, Job>> getEvaluatedUsers() {
+        return evaluated_users;
     }
 }
