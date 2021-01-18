@@ -2,17 +2,20 @@ package app.gui.consumer;
 
 import app.architecture.Application;
 import app.company.Company;
+import app.company.Department;
 import app.gui.Main;
 import app.gui.ShowDetails;
 import app.gui.consumer.buttons.*;
 import app.gui.consumer.lists.*;
-import app.info.Job;
-import app.info.Request;
+import app.info.*;
 import app.user.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class MediatorDialog implements MediatorConsumer {
     private JFrame frame;
@@ -32,6 +35,11 @@ public class MediatorDialog implements MediatorConsumer {
     private EvaluateButton evaluate;
     private HireButton hirebutton;
     private RequestsButton requests;
+    private RecruitersButton recruitersbutton;
+    private MoveToManagement moveManagement;
+    private MoveToIT moveIT;
+    private MoveToFinance moveFinance;
+    private MoveToMarketing moveMarketing;
 
     @Override
     public void createWin(Consumer consumer) {
@@ -101,9 +109,19 @@ public class MediatorDialog implements MediatorConsumer {
                 job_button = new GetJobsButton(this);
                 requests = new RequestsButton(this);
                 hirebutton = new HireButton(this);
+                recruitersbutton = new RecruitersButton(this);
+                moveFinance = new MoveToFinance(this);
+                moveIT = new MoveToIT(this);
+                moveManagement = new MoveToManagement(this);
+                moveMarketing = new MoveToMarketing(this);
                 panel_west.add(job_button);
                 panel_west.add(requests);
                 panel_west.add(hirebutton);
+                panel_west.add(recruitersbutton);
+                panel_east.add(moveFinance);
+                panel_east.add(moveIT);
+                panel_east.add(moveManagement);
+                panel_east.add(moveMarketing);
             } else if (consumer instanceof Recruiter) {
                 applications = new ViewApplications(this);
                 evaluate = new EvaluateButton(this);
@@ -215,12 +233,70 @@ public class MediatorDialog implements MediatorConsumer {
                 }
             }
         }
+        Collections.sort(requests, new Comparator<Request>() {
+            @Override
+            public int compare(Request o1, Request o2) {
+                if (o1.getScore() > o2.getScore())
+                    return -1;
+                else if (o1.getScore() < o2.getScore())
+                    return 1;
+                return 0;
+            }
+        });
         RequestList list = new RequestList(this, requests);
         panellist.replaceList(list);
     }
 
     @Override
     public void hire() {
+        Company company = Application.getInstance().getCompany(((Manager) loggedconsumer).getCompany());
+        String aux = (String) panellist.getSelectedValue();
+        String job_aux = aux.substring(aux.lastIndexOf('-') + 2);
+        aux = aux.substring(0, aux.indexOf('-') - 1);
+        Job job = null;
+        for (int i = 0; i < company.getDepartments().size(); i++) {
+            job = company.getDepartments().get(i).getJob(job_aux);
+            if (job != null)
+                break;
+        }
+        if (job != null) {
+            User user = Application.getInstance().getUser(aux);
+            Employee employee;
+            company.getObservers().contains(user);
+            company.removeObserver(user);
+            employee = user.convert();
+            employee.setCompany(job.getCompany());
+            employee.setSalary(job.getSalary());
+            company = Application.getInstance().getCompany(job.getCompany());
+            company.getDepartment(job.getDepartment()).add(employee);
+            Date date1 = new Date(Calendar.getInstance().get(Calendar.YEAR),
+                    Calendar.getInstance().get(Calendar.MONTH) + 1,
+                    Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+            try {
+                employee.getResume().addExperience(new Experience(date1, null, job.getName(), company.getName()));
+            } catch (InvalidDatesException e) {
+                e.printStackTrace();
+            }
+        }
+        DefaultListModel model = (DefaultListModel) panellist.getModel();
+        model.remove(panellist.getSelectedIndex());
+    }
 
+    @Override
+    public void listRecruiters() {
+        RecruiterList list = new RecruiterList(this, (Manager)loggedconsumer);
+        panellist.replaceList(list);
+    }
+
+    @Override
+    public void moveTo(String dep) {
+        Manager manager = (Manager) loggedconsumer;
+        Company company = Application.getInstance().getCompany(manager.getCompany());
+        Department department = company.getDepartment(dep);
+        String aux = (String) panellist.getSelectedValue();
+        Employee employee = company.getEmployee(aux);
+        company.move(employee, department);
+        DefaultListModel model = (DefaultListModel) panellist.getModel();
+        model.remove(panellist.getSelectedIndex());
     }
 }

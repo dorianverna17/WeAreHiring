@@ -15,4 +15,6 @@ public interface MediatorConsumer {
     public void evaluateUser();
     public void listRequests();
     public void hire();
+    public void listRecruiters();
+    public void moveTo(String dep);
 }

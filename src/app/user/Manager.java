@@ -60,18 +60,16 @@ public class Manager extends Employee {
             ArrayList<Company> list = Application.getInstance().getCompanies();
             for (int i = 0; i < candidates.size(); i++) {
                 if (job.isOpen_job()) {
-                    System.out.println("Notificarile pentru " + candidates.get(i).value1.getResume().getInformation().getLastname());
-                    candidates.get(i).value1.seeNotifications();
                     for (int j = 0; j < list.size(); j++) {
-                        if (list.get(i).getObservers().contains(candidates.get(i).value1)) {
-                            list.get(i).removeObserver(candidates.get(i).value1);
+                        if (list.get(j).getObservers().contains(candidates.get(i).value1)) {
+                            list.get(j).removeObserver(candidates.get(i).value1);
                         }
                     }
                     employee = candidates.get(i).value1.convert();
                     employee.setCompany(job.getCompany());
                     employee.setSalary(job.getSalary());
                     company = Application.getInstance().getCompany(job.getCompany());
-                    company.getDepartment("IT").add(employee);
+                    company.getDepartment(job.getDepartment()).add(employee);
                     Date date1 = new Date(Calendar.getInstance().get(Calendar.YEAR),
                             Calendar.getInstance().get(Calendar.MONTH) + 1,
                             Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
