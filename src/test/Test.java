@@ -119,7 +119,8 @@ public class Test {
         for (int i = 0; i < companies.size(); i++) {
             final_date = (String) companies.get(i).get("end_date");
             dep = (String) companies.get(i).get("department");
-            if (final_date == null && comp.getName().equals((String) companies.get(i).get("company"))) {
+            if (final_date == null &&
+                    comp.getName().equals((String) companies.get(i).get("company"))) {
                 return comp.getDepartment(dep);
             }
         }
@@ -186,7 +187,7 @@ public class Test {
         double grade;
         for (int i = 0; i < experience.size(); i++) {
             new_experience = new Experience();
-            begin_date = parseDate((String) experience.get(i).get("start_date"));
+            begin_date = parseDate((String)experience.get(i).get("start_date"));
             end_date = parseDate((String) experience.get(i).get("end_date"));
             position = (String) experience.get(i).get("position");
             company = (String) experience.get(i).get("company");
@@ -210,12 +211,15 @@ public class Test {
         String genre = (String) entry.get("genre");
         Date date_obj = parseDate(date);
         //preiau limba
-        ArrayList<String> languages = (ArrayList<String>) entry.get("languages");
-        ArrayList<String> languages_level = (ArrayList<String>) entry.get("languages_level");
+        ArrayList<String> languages;
+        languages= (ArrayList<String>) entry.get("languages");
+        ArrayList<String> languages_level;
+        languages_level = (ArrayList<String>) entry.get("languages_level");
         ArrayList<Information.Language> languages_list = new ArrayList<>();
         Information.Language new_language;
         for (int i = 0; i < languages.size(); i++) {
-            new_language = new Information.Language(languages.get(i), languages_level.get(i));
+            new_language = new Information.Language(languages.get(i),
+                    languages_level.get(i));
             languages_list.add(new_language);
         }
         // acum ma voi ocupa de educatie
@@ -340,34 +344,11 @@ public class Test {
             for (int j = 0; j < app.getUsers().get(i).getInterests().size(); j++) {
                 company = app.getCompany(app.getUsers().get(i).getInterests().get(j));
                 for (int k = 0; k < company.getJobs().size(); k++) {
-//                    System.out.println("User-ul " + app.getUsers().get(i).getResume().getInformation().getLastname() +
-//                            " " + app.getUsers().get(i).getResume().getInformation().getLastname() +
-//                            " a aplicat la compania " + company.getName() + " la positia de " +
-//                            company.getJobs().get(k).getName());
                     company.getJobs().get(k).apply(app.getUsers().get(i));
                 }
             }
         }
-//         printez lista de candidati de la fiecare job
-//        for (int i = 0; i < app.getCompanies().size(); i++) {
-//            for (int j = 0; j < app.getCompanies().get(i).getJobs().size(); j++) {
-//                System.out.println(app.getCompanies().get(i).getName() + " " +
-//                        app.getCompanies().get(i).getJobs().get(j).getName() + " " +
-//                        app.getCompanies().get(i).getJobs().get(j).getCandidates());
-//            }
-//        }
-        Manager manager;
-        // acum voi printa lista de requesturi de la fiecare manager
-//        for (int i = 0; i < app.getCompanies().size(); i++) {
-//            manager = app.getCompanies().get(i).getManager();
-//            System.out.println(app.getCompanies().get(i).getName());
-//            for (int j = 0; j < manager.getRequests().size(); j++) {
-//                System.out.println(((Job)manager.getRequests().get(j).getKey()).getName() + " " +
-//                        manager.getRequests().get(j).getValue1() + " " + manager.getRequests().get(j).getScore() + " " +
-//                        ((Recruiter)manager.getRequests().get(j).getValue2()).getRating());
-//            }
-//        }
-        // acum voi procesa fiecare request
+        // decomenteaza acest cod pentru a putea fi procesate requesturile
 //        for (int i = 0; i < app.getCompanies().size(); i++) {
 //            manager = app.getCompanies().get(i).getManager();
 //            ArrayList<Job> list = app.getCompanies().get(i).getJobs();
@@ -375,8 +356,5 @@ public class Test {
 //                manager.process(list.get(j));
 //            }
 //        }
-        // acum voi printa notificarile pe care le are user-ul Edmund
-        System.out.println("Notificarile pentru Edmund");
-        app.getUsers().get(0).seeNotifications();
     }
 }

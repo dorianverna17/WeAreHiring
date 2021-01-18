@@ -118,8 +118,6 @@ public class Register extends JFrame implements ActionListener {
                 languages_list.add(lang);
         }
         if (((JButton)e.getSource()).getText().equals("Next Step")) {
-            Consumer user = new User();
-            Consumer.Resume resume = new Consumer.Resume(new Consumer.Resume.ResumeBuilder());
             info.setPhone_number(phone_text.getText());
             info.setSex(sex_box.getSelectedItem().toString());
             info.setEmail(email_text.getText());
@@ -146,8 +144,7 @@ public class Register extends JFrame implements ActionListener {
                 Month = Integer.parseInt(String.valueOf(month));
             Year = Integer.parseInt(year);
             info.setBirth_date(new Date(Year, Month, Day));
-            resume.setInformation(info);
-            EducationWin education = new EducationWin(resume);
+            EducationWin education = new EducationWin(info);
             setVisible(false);
         }
     }

@@ -224,17 +224,17 @@ public class Company implements Subject {
             while (!list.isEmpty()) {
                 Pair<Consumer, Integer> pair = list.get(list.size() - 1);
                 list.remove(list.size() - 1);
-                if (visited.contains(pair.value1))
+                if (visited.contains(pair.getValue1()))
                     continue;
-                visited.add(pair.value1);
-                if (pair.value1 == recruiter) {
-                    if (pair.value2 > degree)
-                        degree = pair.value2;
+                visited.add(pair.getValue1());
+                if (pair.getValue1() == recruiter) {
+                    if (pair.getValue2() > degree)
+                        degree = pair.getValue2();
                 }
                 else {
-                    for (int i = 0; i < pair.value1.getContacts().size(); i++)
-                        if (!visited.contains(pair.value1.getContacts().get(i)))
-                            list.add(0, new Pair(pair.value1.getContacts().get(i), pair.value2 + 1));
+                    for (int i = 0; i < pair.getValue1().getContacts().size(); i++)
+                        if (!visited.contains(pair.getValue1().getContacts().get(i)))
+                            list.add(0, new Pair(pair.getValue1().getContacts().get(i), pair.getValue2() + 1));
                 }
             }
         }
@@ -253,18 +253,18 @@ public class Company implements Subject {
         Recruiter recruit = null;
         Double aux;
         for (int i = 0; i < degrees.size(); i++) {
-            if (degrees.get(i).value2 > max) {
-                recruit = degrees.get(i).value1;
-                max = degrees.get(i).value2;
+            if (degrees.get(i).getValue2() > max) {
+                recruit = degrees.get(i).getValue1();
+                max = degrees.get(i).getValue2();
             } else {
-                if (degrees.get(i).value2 == max) {
+                if (degrees.get(i).getValue2() == max) {
                     if (recruit == null)
                         aux = 0d;
                     else
                         aux = recruit.getRating();
-                    if (degrees.get(i).value1.getRating() > aux) {
-                        recruit = degrees.get(i).value1;
-                        max = degrees.get(i).value2;
+                    if (degrees.get(i).getValue1().getRating() > aux) {
+                        recruit = degrees.get(i).getValue1();
+                        max = degrees.get(i).getValue2();
                     }
                 }
             }

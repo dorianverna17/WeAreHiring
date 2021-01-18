@@ -24,16 +24,11 @@ public class EducationWin extends JFrame implements ActionListener {
     private JTextField grade_field;
     private JButton addedu;
     private JButton next;
-    private ArrayList<Education> list;
     private ArrayList<Education> education;
     private Information information;
-//    private User user;
-    private Consumer.Resume resume;
 
-    public EducationWin(Consumer.Resume resume) {
+    public EducationWin(Information information) {
         super("We are hiring");
-//        Application.getInstance().add(user);
-//        Application.getInstance().print_user();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setMinimumSize(new Dimension(700, 700));
@@ -90,12 +85,8 @@ public class EducationWin extends JFrame implements ActionListener {
         addedu.addActionListener(this);
         next.addActionListener(this);
 
-        list = new ArrayList<>();
         education = new ArrayList<>();
-//        information = info;
-//        this.user = user;
-        resume.setEducation(education);
-        this.resume = resume;
+        this.information = information;
 
         setLocationRelativeTo(null);
         setVisible(true);
@@ -104,7 +95,7 @@ public class EducationWin extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (((JButton)e.getSource()).getText().equals("Next Step")) {
-            ExperienceWin experience = new ExperienceWin(resume);
+            ExperienceWin experience = new ExperienceWin(information, education);
             setVisible(false);
         }
         if (((JButton)e.getSource()).getText().equals("Add Education")) {
@@ -154,7 +145,7 @@ public class EducationWin extends JFrame implements ActionListener {
             } else {
                 edu.setEnd_date(null);
             }
-            resume.addEducation(edu);
+            education.add(edu);
         }
     }
 }

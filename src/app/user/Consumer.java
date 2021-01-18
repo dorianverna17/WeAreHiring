@@ -67,15 +67,15 @@ public abstract class Consumer {
             while (!list.isEmpty()) {
                 Pair<Consumer, Integer> pair = list.get(list.size() - 1);
                 list.remove(list.size() - 1);
-                if (visited.contains(pair.value1))
+                if (visited.contains(pair.getValue1()))
                     continue;
-                visited.add(pair.value1);
-                if (pair.value1 == consumer) {
-                    if (pair.value2 < degree)
-                        degree = pair.value2;
+                visited.add(pair.getValue1());
+                if (pair.getValue1() == consumer) {
+                    if (pair.getValue2() < degree)
+                        degree = pair.getValue2();
                 } else {
-                    for (int i = 0; i < pair.value1.contacts.size(); i++)
-                        list.add(0, new Pair(pair.value1.contacts.get(i), pair.value2 + 1));
+                    for (int i = 0; i < pair.getValue1().contacts.size(); i++)
+                        list.add(0, new Pair(pair.getValue1().contacts.get(i), pair.getValue2() + 1));
                 }
             }
         }

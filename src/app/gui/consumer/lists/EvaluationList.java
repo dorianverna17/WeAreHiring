@@ -16,9 +16,9 @@ public class EvaluationList extends JList {
         this.mediator = mediator;
         DefaultListModel model = new DefaultListModel();
         for (int i = 0; i < list.size(); i++) {
-            model.addElement(list.get(i).value1.getResume().getInformation().getLastname() + " " +
-                    list.get(i).value1.getResume().getInformation().getFirstname() + " - " +
-                    list.get(i).value2.getName());
+            model.addElement(list.get(i).getValue1().getResume().getInformation().getLastname() + " " +
+                    list.get(i).getValue1().getResume().getInformation().getFirstname() + " - " +
+                    list.get(i).getValue2().getName());
         }
         setModel(model);
     }

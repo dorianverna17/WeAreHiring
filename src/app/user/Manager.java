@@ -36,10 +36,8 @@ public class Manager extends Employee {
     public void process(Job job) {
         if (job.isOpen_job()) {
             ArrayList<Pair<User, Double>> candidates = new ArrayList<>();
-//            System.out.println(requests.size());
             for (int i = 0; i < requests.size(); i++) {
                 if (job == requests.get(i).getKey()) {
-//                    System.out.println(((User)requests.get(i).getValue1()).getResume().getInformation().getLastname());
                     if (Application.getInstance().getUsers().contains((User)requests.get(i).getValue1())) {
                         candidates.add(new Pair(requests.get(i).getValue1(), requests.get(i).getScore()));
                     }
@@ -48,9 +46,9 @@ public class Manager extends Employee {
             Collections.sort(candidates, new Comparator<Pair<User, Double>>() {
                 @Override
                 public int compare(Pair<User, Double> o1, Pair<User, Double> o2) {
-                    if (o1.value2 > o2.value2)
+                    if (o1.getValue2() > o2.getValue2())
                         return -1;
-                    if (o1.value2 < o2.value2)
+                    if (o1.getValue2() < o2.getValue2())
                         return 1;
                     return 0;
                 }
@@ -61,11 +59,11 @@ public class Manager extends Employee {
             for (int i = 0; i < candidates.size(); i++) {
                 if (job.isOpen_job()) {
                     for (int j = 0; j < list.size(); j++) {
-                        if (list.get(j).getObservers().contains(candidates.get(i).value1)) {
-                            list.get(j).removeObserver(candidates.get(i).value1);
+                        if (list.get(j).getObservers().contains(candidates.get(i).getValue1())) {
+                            list.get(j).removeObserver(candidates.get(i).getValue1());
                         }
                     }
-                    employee = candidates.get(i).value1.convert();
+                    employee = candidates.get(i).getValue1().convert();
                     employee.setCompany(job.getCompany());
                     employee.setSalary(job.getSalary());
                     company = Application.getInstance().getCompany(job.getCompany());
@@ -82,7 +80,7 @@ public class Manager extends Employee {
                 } else {
                     Notification notification = new Notification(job.getCompany(), "Ati fost respins de la job-ul "
                             + job.getName());
-                    Application.getInstance().getCompany(job.getCompany()).notifyObserver(notification, candidates.get(i).value1);
+                    Application.getInstance().getCompany(job.getCompany()).notifyObserver(notification, candidates.get(i).getValue1());
                 }
                 if (job.getNr_candidates() == 0) {
                     job.setOpen_job(false);

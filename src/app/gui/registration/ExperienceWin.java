@@ -1,6 +1,7 @@
 package app.gui.registration;
 
 import app.architecture.Application;
+import app.gui.Main;
 import app.gui.registration.RegisterCompany;
 import app.gui.registration.RegisterEmployee;
 import app.gui.registration.RegisterInterests;
@@ -26,14 +27,12 @@ public class ExperienceWin extends JFrame implements ActionListener {
     private JTextField enddate_field;
     private JButton addexp;
     private JButton register;
-    private ArrayList<Experience> list;
     private Information information;
     private ArrayList<Education> education;
     private ArrayList<Experience> experience;
     private JComboBox registeras_box;
-    private Consumer.Resume resume;
 
-    public ExperienceWin(Consumer.Resume resume) {
+    public ExperienceWin(Information information, ArrayList education) {
         super("We are hiring");
         setMinimumSize(new Dimension(700, 700));
         setLayout(new BorderLayout());
@@ -94,12 +93,9 @@ public class ExperienceWin extends JFrame implements ActionListener {
         panel_south.add(registeras_box);
         panel_south.add(register);
 
-        list = new ArrayList<>();
+        this.information = information;
+        this.education = education;
         experience = new ArrayList<>();
-//        information = info;
-//        education = edu;
-        this.resume = resume;
-        resume.setExperience(experience);
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -108,34 +104,47 @@ public class ExperienceWin extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (((JButton)e.getSource()).getText().equals("Register")) {
             RegisterEmployee reemp;
-            if (registeras_box.getSelectedItem().toString().equals("Manager")) {
-                Manager manager = new Manager();
-                manager.setResume(resume);
-                manager.setContacts(new ArrayList<>());
-                RegisterCompany recomp = new RegisterCompany(manager);
-            }
-            if (registeras_box.getSelectedItem().toString().equals("Employee")) {
-                Employee employee = new Employee();
-                employee.setResume(resume);
-                employee.setContacts(new ArrayList<>());
-                reemp = new RegisterEmployee(employee);
-            }
-            if (registeras_box.getSelectedItem().toString().equals("Recruiter")) {
-                Recruiter recruiter = new Recruiter();
-                recruiter.setResume(resume);
-                recruiter.setContacts(new ArrayList<>());
-                reemp = new RegisterEmployee(recruiter);
-                recruiter.setRating(5);
-            }
-            if (registeras_box.getSelectedItem().toString().equals("User")) {
-                User user2 = new User();
-                user2.setResume(resume);
-                user2.setContacts(new ArrayList<>());
-                user2.setInterests(new ArrayList<>());
-                Application.getInstance().add(user2);
-                RegisterInterests win = new RegisterInterests(user2);
-//                Application.getInstance().add(user2);
-//                Application.getInstance().print_user();
+            Consumer.Resume resume = new Consumer.Resume.ResumeBuilder()
+                    .lastname(information.getLastname())
+                    .firstname(information.getFirstname())
+                    .birthdate(information.getBirth_date())
+                    .email(information.getEmail())
+                    .phonenumber(information.getPhone_number())
+                    .gender(information.getSex())
+                    .language(information.getLanguages())
+                    .education(education)
+                    .experience(experience)
+                    .build();
+            if (resume != null) {
+                if (registeras_box.getSelectedItem().toString().equals("Manager")) {
+                    Manager manager = new Manager();
+                    manager.setResume(resume);
+                    manager.setContacts(new ArrayList<>());
+                    RegisterCompany recomp = new RegisterCompany(manager);
+                }
+                if (registeras_box.getSelectedItem().toString().equals("Employee")) {
+                    Employee employee = new Employee();
+                    employee.setResume(resume);
+                    employee.setContacts(new ArrayList<>());
+                    reemp = new RegisterEmployee(employee);
+                }
+                if (registeras_box.getSelectedItem().toString().equals("Recruiter")) {
+                    Recruiter recruiter = new Recruiter();
+                    recruiter.setResume(resume);
+                    recruiter.setContacts(new ArrayList<>());
+                    reemp = new RegisterEmployee(recruiter);
+                    recruiter.setRating(5);
+                }
+                if (registeras_box.getSelectedItem().toString().equals("User")) {
+                    User user2 = new User();
+                    user2.setResume(resume);
+                    user2.setContacts(new ArrayList<>());
+                    user2.setInterests(new ArrayList<>());
+                    Application.getInstance().add(user2);
+                    RegisterInterests win = new RegisterInterests(user2);
+                }
+            } else {
+                Main main = new Main();
             }
             setVisible(false);
         }
@@ -186,7 +195,7 @@ public class ExperienceWin extends JFrame implements ActionListener {
             } else {
                 exp.setEnd_date(null);
             }
-            resume.addExperience(exp);
+            experience.add(exp);
         }
     }
 }
