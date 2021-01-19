@@ -151,49 +151,54 @@ public class AdminPage extends JFrame implements ActionListener {
             displayed = 1;
             list.setModel((ListModel) model);
         } else if (button.getText().contains("Details")) {
-            String text = list.getSelectedValue().toString();
-            if (displayed == 0) {
-                User user = app.getUser(text);
-                ShowDetails win = new ShowDetails(user);
-            } else if (displayed == 1) {
-                Company comp = app.getCompany(text);
-                ShowDetails win = new ShowDetails(comp);
-            } else if (displayed == 3) {
-                Recruiter rec = company.getRecruiter(text);
-                ShowDetails win = new ShowDetails(rec);
-            } else {
-                Employee empl = company.getEmployee(text);
-                System.out.println("yes");
-                ShowDetails win = new ShowDetails(empl);
+            if (list.getSelectedValue() != null) {
+                String text = list.getSelectedValue().toString();
+                if (displayed == 0) {
+                    User user = app.getUser(text);
+                    ShowDetails win = new ShowDetails(user);
+                } else if (displayed == 1) {
+                    Company comp = app.getCompany(text);
+                    ShowDetails win = new ShowDetails(comp);
+                } else if (displayed == 3) {
+                    Recruiter rec = company.getRecruiter(text);
+                    ShowDetails win = new ShowDetails(rec);
+                } else {
+                    Employee empl = company.getEmployee(text);
+                    ShowDetails win = new ShowDetails(empl);
+                }
             }
         } else if (button.getText().equals("Log Out")) {
             this.dispose();
             Main main = new Main();
         } else if (button.getText().equals("Departments")) {
-            show_details.setEnabled(true);
-            Company comp;
-            if (displayed != 3 && displayed != 4 && displayed != 5) {
+            show_details.setEnabled(false);
+            Company comp = null;
+            if (displayed != 3 && displayed != 4 && displayed != 5
+                && list.getSelectedValue() != null) {
                 String text = list.getSelectedValue().toString();
                 comp = app.getCompany(text);
                 this.company = comp;
             } else {
                 comp = company;
             }
-            displayed = 2;
-            DefaultListModel model = new DefaultListModel();
-            String aux1;
-            ArrayList<Department> deps = comp.getDepartments();
-            for (int i = 0; i < deps.size(); i++) {
-                String dep_name = deps.get(i).getClass().toGenericString();
-                dep_name = dep_name.substring(dep_name.lastIndexOf('.') + 1);
-                model.addElement(dep_name);
+            if (comp != null) {
+                displayed = 2;
+                DefaultListModel model = new DefaultListModel();
+                String aux1;
+                ArrayList<Department> deps = comp.getDepartments();
+                for (int i = 0; i < deps.size(); i++) {
+                    String dep_name = deps.get(i).getClass().toGenericString();
+                    dep_name = dep_name.substring(dep_name.lastIndexOf('.') + 1);
+                    model.addElement(dep_name);
+                }
+                list.setModel((ListModel) model);
+                show_recruiters.setEnabled(false);
+                show_jobs.setEnabled(true);
+                show_departments.setEnabled(false);
+                show_employees.setEnabled(true);
             }
-            list.setModel((ListModel) model);
-            show_recruiters.setEnabled(false);
-            show_jobs.setEnabled(true);
-            show_departments.setEnabled(false);
-            show_employees.setEnabled(true);
-        } else if (button.getText().equals("Recruiters")) {
+        } else if (button.getText().equals("Recruiters")
+            && list.getSelectedValue() != null) {
             show_details.setEnabled(true);
             show_details.setText("Show Details");
             String text = list.getSelectedValue().toString();
@@ -209,7 +214,8 @@ public class AdminPage extends JFrame implements ActionListener {
             }
             show_recruiters.setEnabled(false);
             list.setModel((ListModel) model);
-        } else if (button.getText().equals("Employees")) {
+        } else if (button.getText().equals("Employees") &&
+                list.getSelectedValue() != null) {
             displayed = 4;
             show_details.setEnabled(true);
             show_details.setText("Show Details");
@@ -235,7 +241,8 @@ public class AdminPage extends JFrame implements ActionListener {
                 model.addElement(aux1);
             }
             list.setModel((ListModel) model);
-        } else if (button.getText().equals("Available Jobs")) {
+        } else if (button.getText().equals("Available Jobs")
+            && list.getSelectedValue() != null) {
             displayed = 5;
             show_details.setEnabled(false);
             String text = list.getSelectedValue().toString();

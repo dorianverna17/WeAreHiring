@@ -56,6 +56,7 @@ public class RegisterInterests extends JFrame implements ActionListener {
         register = new JButton("Complete Registration");
         panel_south.add(register);
         register.addActionListener(this);
+        interests = new ArrayList<>();
         setVisible(true);
     }
 
@@ -63,7 +64,6 @@ public class RegisterInterests extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton but = (JButton) e.getSource();
         if (but.getText().equals("Add interest")) {
-            ArrayList<String> interests = new ArrayList<>();
             interests.add(field.getText());
         } else {
             user.setInterests(interests);

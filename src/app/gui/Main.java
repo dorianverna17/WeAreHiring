@@ -164,7 +164,7 @@ public class Main extends JFrame implements ActionListener {
             }
             if (found != null) {
                 MediatorConsumer win = new MediatorDialog();
-                setVisible(false);
+                dispose();
                 win.createWin(found);
             }
         }
