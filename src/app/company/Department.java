@@ -62,12 +62,15 @@ public abstract class Department {
 
     // metoda de adaugare a unui job
     public void add(Job job) {
+        Company company = Application.getInstance().getCompany(job.getCompany());
         if (!jobs.contains(job))
             jobs.add(job);
-        Notification notification = new Notification(job.getCompany(), "A fost adaugat un job nou: " + job.getName());
-        Application.getInstance().getCompany(job.getCompany()).notifyAllObserver(notification);
+        Notification notification = new Notification(job.getCompany(),
+                "A fost adaugat un job nou: " + job.getName());
+        company.notifyAllObserver(notification);
     }
 
+    // metoda care returneaza un job din departament (cautat dupa nume)
     public Job getJob(String name) {
         for (int i = 0; i < getJobs().size(); i++) {
             if (getJobs().get(i).getName().equals(name))

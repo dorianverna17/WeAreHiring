@@ -6,6 +6,7 @@ import app.user.User;
 import javax.swing.*;
 import java.util.ArrayList;
 
+// lista notificarilor
 public class NotificationList extends JList {
     private MediatorConsumer mediator;
 

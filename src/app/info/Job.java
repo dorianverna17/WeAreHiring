@@ -132,7 +132,7 @@ public class Job {
         for (int i = 0; i < company.getDepartments().size(); i++) {
             dep = company.getDepartments().get(i);
             for (int j = 0; j < dep.getJobs().size(); j++) {
-                if (dep.getJobs().get(i) == this) {
+                if (dep.getJobs().get(j) == this) {
                     if (dep instanceof IT)
                         return "IT";
                     if (dep instanceof Finance)

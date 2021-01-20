@@ -5,6 +5,7 @@ import app.gui.consumer.MediatorConsumer;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+// Butonul prin care se muta un angajat in departamentul Marketing
 public class MoveToMarketing extends JButton {
     private MediatorConsumer mediator;
 

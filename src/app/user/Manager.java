@@ -63,6 +63,13 @@ public class Manager extends Employee {
                             list.get(j).removeObserver(candidates.get(i).getValue1());
                         }
                     }
+                    ArrayList<Request> requests = new ArrayList<>();
+                    for (int k = 0; k < getRequests().size(); k++) {
+                        if (getRequests().get(k).getValue1() != candidates.get(i).getValue1()) {
+                            requests.add(getRequests().get(k));
+                        }
+                    }
+                    setRequests(requests);
                     employee = candidates.get(i).getValue1().convert();
                     employee.setCompany(job.getCompany());
                     employee.setSalary(job.getSalary());

@@ -4,6 +4,7 @@ import app.user.Consumer;
 
 import javax.swing.*;
 
+// panelul in care pun listele
 public class ScrollablePanel extends JScrollPane {
     private MediatorConsumer mediator;
 

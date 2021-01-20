@@ -5,6 +5,8 @@ import app.gui.consumer.MediatorConsumer;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+// butonul folosit de un user pentru a obtine detalii referitoare
+// la un user, employee, recruiter sau manager
 public class DetailsButton extends JButton {
     private MediatorConsumer mediator;
 

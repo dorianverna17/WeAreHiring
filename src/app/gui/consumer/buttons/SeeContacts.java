@@ -5,6 +5,7 @@ import app.gui.consumer.MediatorConsumer;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+// butonul folosit pentru a arata contactele
 public class SeeContacts extends JButton {
     private MediatorConsumer mediator;
 

@@ -6,8 +6,8 @@ import app.user.Employee;
 
 import java.util.Calendar;
 
+// departamentul de finance
 public class Finance extends Department {
-
     // metoda care returneaza anii de experienta a unui employee in cadrul companiei
     public int getExperienceinCompany(Employee employee) {
         int current_year = Calendar.getInstance().get(Calendar.YEAR);
@@ -29,15 +29,17 @@ public class Finance extends Department {
         return total;
     }
 
+    // metoda care returneaza bugetul total
     @Override
     public double getTotalSalaryBudget() {
         double total = 0;
         for (int i = 0; i < getEmployees().size(); i++) {
-            System.out.println(getEmployees().get(i).getSalary());
             if (getExperienceinCompany(getEmployees().get(i)) == 0) {
-                total += getEmployees().get(i).getSalary() + (((double) 10 / 100) * getEmployees().get(i).getSalary());
+                total += getEmployees().get(i).getSalary() +
+                        (((double) 10 / 100) * getEmployees().get(i).getSalary());
             } else {
-                total += getEmployees().get(i).getSalary() + (((double) 16 / 100) * getEmployees().get(i).getSalary());
+                total += getEmployees().get(i).getSalary() +
+                        (((double) 16 / 100) * getEmployees().get(i).getSalary());
             }
         }
         return total;

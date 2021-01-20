@@ -349,12 +349,13 @@ public class Test {
             }
         }
         // decomenteaza acest cod pentru a putea fi procesate requesturile
-//        for (int i = 0; i < app.getCompanies().size(); i++) {
-//            manager = app.getCompanies().get(i).getManager();
-//            ArrayList<Job> list = app.getCompanies().get(i).getJobs();
-//            for (int j = 0; j < list.size(); j++) {
-//                manager.process(list.get(j));
-//            }
-//        }
+        Manager manager;
+        for (int i = 0; i < app.getCompanies().size(); i++) {
+            manager = app.getCompanies().get(i).getManager();
+            ArrayList<Job> list = app.getCompanies().get(i).getJobs();
+            for (int j = 0; j < list.size(); j++) {
+                manager.process(list.get(j));
+            }
+        }
     }
 }

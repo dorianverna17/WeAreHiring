@@ -177,11 +177,12 @@ public class Company implements Subject {
     // verifica dupa nume
     public Employee getEmployee(String name) {
         String aux1, aux2;
+        Employee employee;
         for (int i = 0; i < departments.size(); i++) {
             for (int j = 0; j < departments.get(i).getEmployees().size(); j++) {
-                aux1 = departments.get(i).getEmployees().get(j).getResume().getInformation().getLastname();
-                aux2 = departments.get(i).getEmployees().get(j).getResume().getInformation().getFirstname();
-                System.out.println(aux1 + " " + aux2);
+                employee = departments.get(i).getEmployees().get(j);
+                aux1 = employee.getResume().getInformation().getLastname();
+                aux2 = employee.getResume().getInformation().getFirstname();
                 if ((aux1 + " " + aux2).equals(name))
                     return departments.get(i).getEmployees().get(j);
             }
@@ -193,9 +194,11 @@ public class Company implements Subject {
     // verifica dupa email
     public Employee getEmployeeByEmail(String email) {
         String aux;
+        Employee employee;
         for (int i = 0; i < departments.size(); i++) {
             for (int j = 0; j < departments.get(i).getEmployees().size(); j++) {
-                aux = departments.get(i).getEmployees().get(j).getResume().getInformation().getEmail();
+                employee = departments.get(i).getEmployees().get(j);
+                aux = employee.getResume().getInformation().getEmail();
                 if ((aux).equals(email))
                     return departments.get(i).getEmployees().get(j);
             }
@@ -210,38 +213,7 @@ public class Company implements Subject {
         return false;
     }
 
-    public int getDegreeRecruiter(Consumer recruiter, Consumer user) {
-        int degree = Integer.MIN_VALUE;
-        List<Consumer> visited = new LinkedList<>();
-        List<Pair<Consumer, Integer>> list = new LinkedList<>();
-        visited.add(user);
-        if (user == recruiter)
-            return 0;
-        else {
-            for (int i = 0; i < user.getContacts().size(); i++)
-                if (!visited.contains(user.getContacts().get(i)))
-                    list.add(0, new Pair(user.getContacts().get(i),  1));
-            while (!list.isEmpty()) {
-                Pair<Consumer, Integer> pair = list.get(list.size() - 1);
-                list.remove(list.size() - 1);
-                if (visited.contains(pair.getValue1()))
-                    continue;
-                visited.add(pair.getValue1());
-                if (pair.getValue1() == recruiter) {
-                    if (pair.getValue2() > degree)
-                        degree = pair.getValue2();
-                }
-                else {
-                    for (int i = 0; i < pair.getValue1().getContacts().size(); i++)
-                        if (!visited.contains(pair.getValue1().getContacts().get(i)))
-                            list.add(0, new Pair(pair.getValue1().getContacts().get(i), pair.getValue2() + 1));
-                }
-            }
-        }
-        return degree;
-    }
-
-    // functia asta e buna
+    // metoda pentru gasirea unui recruiter pentru un user
     public Recruiter findRecruiter(User user) {
         Company company = this;
         ArrayList<Recruiter> list = company.getRecruiters();
@@ -289,18 +261,21 @@ public class Company implements Subject {
         return jobs;
     }
 
+    // metoda pentru a adauga un user in lista de observatori a companiei
     @Override
     public void addObject(User user) {
         if (!observers.contains(user))
             observers.add(user);
     }
 
+    // metoda de a scoate un observer din lista de observeri a companiei
     @Override
     public void removeObserver(User user) {
         if (observers.contains(user))
             observers.remove(user);
     }
 
+    // metoda care trimite o notificare observatorilor
     @Override
     public void notifyAllObserver(Notification notification) {
         for (int i = 0; i < observers.size(); i++) {
@@ -308,10 +283,12 @@ public class Company implements Subject {
         }
     }
 
+    // metoda care trimite o notificare catre un anumit observator
     public void notifyObserver(Notification notification, User user) {
         user.update(notification);
     }
 
+    // metoda care returneaza lista de observeri
     public ArrayList<User> getObservers() {
         return observers;
     }

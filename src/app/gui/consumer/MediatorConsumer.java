@@ -2,6 +2,7 @@ package app.gui.consumer;
 
 import app.user.Consumer;
 
+// interfata de mediator
 public interface MediatorConsumer {
     public void createWin(Consumer consumer);
     public void getToMainScreen();

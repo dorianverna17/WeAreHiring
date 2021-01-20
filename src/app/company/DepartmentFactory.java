@@ -1,5 +1,6 @@
 package app.company;
 
+// clasa care reprezinta factory-ul pentru realizarea departamentelor
 public class DepartmentFactory {
     public static Department factory(String type) {
         switch (type) {

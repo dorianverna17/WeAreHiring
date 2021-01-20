@@ -10,6 +10,7 @@ import app.user.User;
 import javax.swing.*;
 import java.util.ArrayList;
 
+// lista joburilor disponibile
 public class JobList extends JList {
     MediatorConsumer mediator;
 

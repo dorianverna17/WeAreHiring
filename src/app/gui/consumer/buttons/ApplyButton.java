@@ -5,6 +5,7 @@ import app.gui.consumer.MediatorConsumer;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+// Butonul folosit de un user pentru a aplica la o companie
 public class ApplyButton extends JButton {
     private MediatorConsumer mediator;
 

@@ -9,6 +9,7 @@ import app.user.User;
 import javax.swing.*;
 import java.util.ArrayList;
 
+// clasa pentru a lista requesturile
 public class RequestList extends JList {
     private MediatorConsumer mediator;
 
@@ -16,9 +17,11 @@ public class RequestList extends JList {
         super();
         this.mediator = mediator;
         DefaultListModel model = new DefaultListModel();
+        User user;
         for (int i = 0; i < requests.size(); i++) {
-            model.addElement(((User) requests.get(i).getValue1()).getResume().getInformation().getLastname() + " " +
-                    ((User) requests.get(i).getValue1()).getResume().getInformation().getFirstname() + " - " +
+            user = (User) requests.get(i).getValue1();
+            model.addElement(user.getResume().getInformation().getLastname() + " " +
+                    user.getResume().getInformation().getFirstname() + " - " +
                     ((Double) requests.get(i).getScore()).toString() + " - " +
                     ((Job) requests.get(i).getKey()).getName());
         }

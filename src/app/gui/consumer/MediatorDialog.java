@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 
+// clasa care implementeaza interfata de mediator
 public class MediatorDialog implements MediatorConsumer {
     private JFrame frame;
     private JLabel logginas;
@@ -42,6 +43,7 @@ public class MediatorDialog implements MediatorConsumer {
     private MoveToMarketing moveMarketing;
     private SeeContacts contacts;
 
+    // metoda care imi creeaza fereastra
     @Override
     public void createWin(Consumer consumer) {
         frame = new JFrame("We are hiring");
@@ -110,15 +112,22 @@ public class MediatorDialog implements MediatorConsumer {
             employeesbutton = new SeeEmployees(this);
             panel_west.add(companybutton);
             panel_west.add(employeesbutton);
+            employeesbutton.setEnabled(false);
             if (consumer instanceof Manager) {
                 job_button = new GetJobsButton(this);
                 requests = new RequestsButton(this);
                 hirebutton = new HireButton(this);
+                hirebutton.setEnabled(false);
+                requests.setEnabled(false);
                 recruitersbutton = new RecruitersButton(this);
                 moveFinance = new MoveToFinance(this);
                 moveIT = new MoveToIT(this);
                 moveManagement = new MoveToManagement(this);
                 moveMarketing = new MoveToMarketing(this);
+                moveMarketing.setEnabled(false);
+                moveFinance.setEnabled(false);
+                moveManagement.setEnabled(false);
+                moveIT.setEnabled(false);
                 panel_west.add(job_button);
                 panel_west.add(requests);
                 panel_west.add(hirebutton);
@@ -132,16 +141,19 @@ public class MediatorDialog implements MediatorConsumer {
                 evaluate = new EvaluateButton(this);
                 panel_west.add(applications);
                 panel_west.add(evaluate);
+                evaluate.setEnabled(false);
             }
         }
         frame.setVisible(true);
     }
 
+    // metoda apelata in momentul in care fac Log Out
     public void getToMainScreen() {
         frame.dispose();
         Main main = new Main();
     }
 
+    // metoda apelata atunci cand vreau sa vad detaliile legate de un utilizator
     @Override
     public void showDetailsWin() {
         if (panellist.getSelectedValue() != null) {
@@ -151,6 +163,7 @@ public class MediatorDialog implements MediatorConsumer {
         }
     }
 
+    // Metoda folosita atunci cand aplic la un Job
     @Override
     public void applyConsumer() {
         if (panellist.getSelectedValue() != null) {
@@ -161,19 +174,34 @@ public class MediatorDialog implements MediatorConsumer {
         }
     }
 
+    // metoda folosita pentru a lista job-urile
     @Override
     public void listJobs() {
         JobList list;
         if (loggedconsumer instanceof User)
             list = new JobList(loggedconsumer, this);
         else
-            list = new JobList(Application.getInstance().getCompany(((Manager)loggedconsumer).getCompany()),
-                    this);
+            list = new JobList(Application.getInstance().getCompany(
+                    ((Manager)loggedconsumer).getCompany()), this);
+        if (employeesbutton != null)
+            employeesbutton.setEnabled(false);
         panellist.replaceList(list);
-        apply_button.setEnabled(true);
+        if (apply_button != null)
+            apply_button.setEnabled(true);
+        if (requests != null)
+            requests.setEnabled(true);
+        if (hirebutton != null)
+            hirebutton.setEnabled(false);
         details.setEnabled(false);
+        if (loggedconsumer instanceof Manager) {
+            moveMarketing.setEnabled(false);
+            moveFinance.setEnabled(false);
+            moveManagement.setEnabled(false);
+            moveIT.setEnabled(false);
+        }
     }
 
+    // metoda folosita pentru a lista notificarile
     @Override
     public void listNotifications() {
         details.setEnabled(false);
@@ -182,14 +210,30 @@ public class MediatorDialog implements MediatorConsumer {
         panellist.replaceList(list);
     }
 
+    // metoda folosita pentru a lista departamentele
     @Override
     public void listDepartments() {
         String aux = ((Employee)loggedconsumer).getCompany();
         System.out.println(aux);
         DepartmentList list = new DepartmentList(this, Application.getInstance().getCompany(aux), loggedconsumer);
         panellist.replaceList(list);
+        details.setEnabled(false);
+        employeesbutton.setEnabled(true);
+        if (hirebutton != null)
+            hirebutton.setEnabled(false);
+        if (requests != null)
+            requests.setEnabled(false);
+        if (loggedconsumer instanceof Manager) {
+            moveMarketing.setEnabled(false);
+            moveFinance.setEnabled(false);
+            moveManagement.setEnabled(false);
+            moveIT.setEnabled(false);
+        }
+        if (evaluate != null)
+            evaluate.setEnabled(false);
     }
 
+    // metoda folosita pentru a lista angajatii dintr-un departament
     @Override
     public void listEmployees() {
         if (panellist.getSelectedValue() != null) {
@@ -200,17 +244,37 @@ public class MediatorDialog implements MediatorConsumer {
             Company comp = Application.getInstance().getCompany(((Employee) loggedconsumer).getCompany());
             EmployeeList employee = new EmployeeList(this, comp.getDepartment(aux));
             panellist.replaceList(employee);
+            employeesbutton.setEnabled(false);
+            details.setEnabled(true);
+            if (hirebutton != null)
+                hirebutton.setEnabled(false);
+            if (requests != null)
+                requests.setEnabled(false);
+            if (loggedconsumer instanceof Manager) {
+                moveMarketing.setEnabled(true);
+                moveFinance.setEnabled(true);
+                moveManagement.setEnabled(true);
+                moveIT.setEnabled(true);
+            }
+            if (evaluate != null)
+                evaluate.setEnabled(false);
         }
     }
 
+    // metoda folosita pentru a lista userii care au aplica pentru
+    // un job anume
     @Override
     public void listApplications() {
+        employeesbutton.setEnabled(false);
         Recruiter recruiter = (Recruiter) loggedconsumer;
         ArrayList<Pair<User, Job>> list = recruiter.getEvaluatedUsers();
         EvaluationList aux = new EvaluationList(this, list);
         panellist.replaceList(aux);
+        details.setEnabled(true);
+        evaluate.setEnabled(true);
     }
 
+    // metoda apelata atunci cand recruiter-ul doreste sa evalueze un user
     @Override
     public void evaluateUser() {
         if (panellist.getSelectedValue() != null) {
@@ -231,9 +295,12 @@ public class MediatorDialog implements MediatorConsumer {
         }
     }
 
+    // metoda folosita atunci cand managerul doreste sa listeze
+    // requesturile pe care le are de analizat
     @Override
     public void listRequests() {
         if (panellist.getSelectedValue() != null) {
+            hirebutton.setEnabled(true);
             String aux = (String) panellist.getSelectedValue();
             Manager manager = (Manager) loggedconsumer;
             int index = aux.indexOf(' ');
@@ -264,13 +331,21 @@ public class MediatorDialog implements MediatorConsumer {
             });
             RequestList list = new RequestList(this, requests);
             panellist.replaceList(list);
+            if (loggedconsumer instanceof Manager) {
+                moveMarketing.setEnabled(false);
+                moveFinance.setEnabled(false);
+                moveManagement.setEnabled(false);
+                moveIT.setEnabled(false);
+            }
         }
     }
 
+    // metoda folosita de manager atunci cand doreste sa angajeze un user
     @Override
     public void hire() {
         if (panellist.getSelectedValue() != null) {
-            Company company = Application.getInstance().getCompany(((Manager) loggedconsumer).getCompany());
+            Company company = Application.getInstance().getCompany(((Manager)
+                    loggedconsumer).getCompany());
             String aux = (String) panellist.getSelectedValue();
             String job_aux = aux.substring(aux.lastIndexOf('-') + 2);
             aux = aux.substring(0, aux.indexOf('-') - 1);
@@ -280,8 +355,16 @@ public class MediatorDialog implements MediatorConsumer {
                 if (job != null)
                     break;
             }
+            Manager manager = (Manager) loggedconsumer;
             if (job != null) {
                 User user = Application.getInstance().getUser(aux);
+                ArrayList<Request> requests = new ArrayList<>();
+                for (int i = 0; i < manager.getRequests().size(); i++) {
+                    if (manager.getRequests().get(i).getValue1() != user) {
+                        requests.add(manager.getRequests().get(i));
+                    }
+                }
+                manager.setRequests(requests);
                 Employee employee;
                 company.getObservers().contains(user);
                 company.removeObserver(user);
@@ -294,7 +377,8 @@ public class MediatorDialog implements MediatorConsumer {
                         Calendar.getInstance().get(Calendar.MONTH) + 1,
                         Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
                 try {
-                    employee.getResume().addExperience(new Experience(date1, null, job.getName(), company.getName()));
+                    employee.getResume().addExperience(new Experience(date1,
+                            null, job.getName(), company.getName()));
                 } catch (InvalidDatesException e) {
                     e.printStackTrace();
                 }
@@ -304,12 +388,26 @@ public class MediatorDialog implements MediatorConsumer {
         }
     }
 
+    // metoda folosita pentru a lista recruiterii dintr-o companie
     @Override
     public void listRecruiters() {
         RecruiterList list = new RecruiterList(this, (Manager)loggedconsumer);
         panellist.replaceList(list);
+        details.setEnabled(false);
+        if (hirebutton != null)
+            hirebutton.setEnabled(false);
+        if (requests != null)
+            requests.setEnabled(false);
+        if (loggedconsumer instanceof Manager) {
+            moveMarketing.setEnabled(false);
+            moveFinance.setEnabled(false);
+            moveManagement.setEnabled(false);
+            moveIT.setEnabled(false);
+        }
     }
 
+    // metoda folosita pentru a muta un anumit angajat dintr-un departament
+    // in altul
     @Override
     public void moveTo(String dep) {
         if (panellist.getSelectedValue() != null) {
@@ -318,12 +416,15 @@ public class MediatorDialog implements MediatorConsumer {
             Department department = company.getDepartment(dep);
             String aux = (String) panellist.getSelectedValue();
             Employee employee = company.getEmployee(aux);
-            company.move(employee, department);
-            DefaultListModel model = (DefaultListModel) panellist.getModel();
-            model.remove(panellist.getSelectedIndex());
+            if (!department.getEmployees().contains(employee)) {
+                company.move(employee, department);
+                DefaultListModel model = (DefaultListModel) panellist.getModel();
+                model.remove(panellist.getSelectedIndex());
+            }
         }
     }
 
+    // metoda folosita atunci cand se apasa butonul pentru a vedea contactele
     @Override
     public void seeContacts() {
         details.setEnabled(true);
@@ -331,5 +432,19 @@ public class MediatorDialog implements MediatorConsumer {
             apply_button.setEnabled(false);
         PanelList list = new PanelList(loggedconsumer, this);
         panellist.replaceList(list);
+        if (employeesbutton != null)
+            employeesbutton.setEnabled(false);
+        if (hirebutton != null)
+            hirebutton.setEnabled(false);
+        if (requests != null)
+            requests.setEnabled(false);
+        if (loggedconsumer instanceof Manager) {
+            moveMarketing.setEnabled(false);
+            moveFinance.setEnabled(false);
+            moveManagement.setEnabled(false);
+            moveIT.setEnabled(false);
+        }
+        if (evaluate != null)
+            evaluate.setEnabled(false);
     }
 }

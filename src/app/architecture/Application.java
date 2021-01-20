@@ -147,11 +147,11 @@ public class Application {
         return null;
     }
 
+    // metoda care imi returneaza un job din companie pe baza numelui job-ului
     public Job findJob(String selectedValue) {
         int index = selectedValue.indexOf(' ');
         String company_name = selectedValue.substring(0, index);
         String job_name = selectedValue.substring(index + 1);
-        System.out.println(job_name);
         Company comp = Application.getInstance().getCompany(company_name);
         Job job = null;
         for (int i = 0; i < comp.getDepartments().size(); i++) {

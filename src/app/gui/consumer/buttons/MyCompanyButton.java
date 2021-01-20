@@ -5,6 +5,7 @@ import app.gui.consumer.MediatorConsumer;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+// Butonul prin care se afiseaza departamentele dintr-o companie
 public class MyCompanyButton extends JButton {
     private MediatorConsumer mediator;
 

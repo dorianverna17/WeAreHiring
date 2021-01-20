@@ -7,6 +7,10 @@ import app.user.Consumer;
 import javax.swing.*;
 import java.util.ArrayList;
 
+// lista cu contactele (e numita panellist deoarece peste ea suprapun
+// listele pe care le voi folosi mai departe in interfata grafica - pentru
+//  asta am metoda replacelist). Remove element este folosita pentru a
+// sterge un element din lista
 public class PanelList extends JList {
     MediatorConsumer mediator;
 

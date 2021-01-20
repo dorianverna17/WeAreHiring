@@ -59,7 +59,7 @@ public class User extends Consumer implements Observer {
         for (int i = 0; i < notifications.size(); i++) {
             if (!notifications.get(i).getValue2()) {
                 list.add(notifications.get(i));
-                notifications.get(i).setValue2(true);
+//                notifications.get(i).setValue2(true);
             }
         }
         return list;
@@ -79,7 +79,7 @@ public class User extends Consumer implements Observer {
         notifications.add(new Pair<>(notification, false));
     }
 
-    // afiseaza in consola ntificariles
+    // afiseaza in consola notificariles
     public void seeNotifications() {
         for (int i = 0; i < notifications.size(); i++) {
             if (notifications.get(i).getValue2() == false) {

@@ -5,6 +5,7 @@ import app.gui.consumer.MediatorConsumer;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+// butonul folosit pentru a angaja
 public class HireButton extends JButton {
     private MediatorConsumer mediator;
 

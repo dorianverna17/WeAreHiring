@@ -8,6 +8,7 @@ import app.user.User;
 import javax.swing.*;
 import java.util.ArrayList;
 
+// lista celor care trebuie evaluati de catre recruiter
 public class EvaluationList extends JList {
     private MediatorConsumer mediator;
 
@@ -15,9 +16,11 @@ public class EvaluationList extends JList {
         super();
         this.mediator = mediator;
         DefaultListModel model = new DefaultListModel();
+        User user;
         for (int i = 0; i < list.size(); i++) {
-            model.addElement(list.get(i).getValue1().getResume().getInformation().getLastname() + " " +
-                    list.get(i).getValue1().getResume().getInformation().getFirstname() + " - " +
+            user = list.get(i).getValue1();
+            model.addElement(user.getResume().getInformation().getLastname() + " " +
+                    user.getResume().getInformation().getFirstname() + " - " +
                     list.get(i).getValue2().getName());
         }
         setModel(model);

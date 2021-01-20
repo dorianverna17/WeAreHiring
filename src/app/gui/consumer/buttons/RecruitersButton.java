@@ -6,6 +6,7 @@ import app.user.Recruiter;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+// butonul folosit pentru a arata recruiterii
 public class RecruitersButton extends JButton {
     private MediatorConsumer mediator;
 
